@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Insider Subscription</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="subscription-box">
+        <label for="email">SIGN UP FOR OUR DAILY INSIDER</label>
+        <input type="email" id="email" name="Email" placeholder="Enter your email" required>
+        <button onclick="subscribe()">Subscribe</button>
+    </div>
+
+    <script>
+        async function subscribe() {
+            const email = document.getElementById('email').value;
+
+            if (!email) {
+                alert('Please enter your email address.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ Email: email })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                } else {
+                    alert(result.error || 'Subscription failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
